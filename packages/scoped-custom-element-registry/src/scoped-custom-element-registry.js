@@ -107,6 +107,11 @@ if (!ShadowRoot.prototype.createElement) {
 
     get(tagName) {
       const definition = this._definitionsByTag.get(tagName);
+      if (!definition) {
+        const nativeClass = nativeRegistry.get(tagName);
+        if (nativeClass) this.define(tagName, nativeClass);
+        return nativeClass
+      }
       return definition?.elementClass;
     }
 
